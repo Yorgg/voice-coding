@@ -1,211 +1,211 @@
-from aenea import Grammar, MappingRule, Text, Key, Integer, Dictation, CompoundRule
+from aenea import Grammar, Key, MappingRule, Choice, Function, Text, Integer, CompoundRule, Dictation
 from aenea.proxy_contexts import ProxyAppContext
+from time import sleep
+from _generic import pressKeyMap
+
+#helpers
+location_on_host = '~/projects/aenea-grammar/_vim.py'
+jump = Key('squote, squote')
+
+def goto_line(n):
+    for c in str(n):
+        Key(c).execute()
+    Key("s-g").execute()
+
+def yank_lines(n, n2):
+    goto_line(n)
+    Key("s-v").execute()
+    goto_line(n2)
+    Key("y").execute()
+
+def delete_lines(n, n2):
+    goto_line(n)
+    Key("s-v").execute()
+    goto_line(n2)
+    Key("d").execute()
+
+general_mapping = {
+    'dot':  Key('dot'),
+
+    'slash': Key('slash'),
+    'race': Key('rbrace'),
+    'lace': Key('lbrace'),
+
+    'rack': Key('rbracket'),
+    'lack': Key('lbracket'),
+
+    'care': Key('caret'),
+    'doll': Key('dollar'),
+
+    'match': Key('c-n'),
+
+    'ace [<n>]':        Key('space:%(n)d'),
+    'tab [<n>]':        Key('tab:%(n)d'),
+    'slap [<n>]':       Key('enter:%(n)d'),
+    'chuck [<n>]':      Key('del:%(n)d'),
+    'scratch [<n>]':    Key('backspace:%(n)d'),
+
+    #arithmetic
+    'assign':           Text('= '),
+    'compare eek':      Text('== '),
+    'compare treek':    Text('=== '),
+    'compare neek':     Text('!= '),
+    'compare greater':  Text('> '),
+    'compare less':     Text('< '),
+    'compare geek':     Text('>= '),
+    'compare leek':     Text('<= '),
+    'times':            Text('* '),
+    'divided':          Text('/ '),
+    'plus':             Text('+ '),
+    'minus':            Text('- '),
+    'plus equal':       Text('+= '),
+    'minus equal':      Text('-= '),
+    'times equal':      Text('*= '),
+    'divided equal':    Text('/= '),
+}
+
+normal_mode_mapping = {
+
+    ### PLUGINS
+    # easy-motion
+    'fish <pressKey>': Key("space, space, s") + Text('%(pressKey)s'),
+
+    # CTRL+P
+    'hunt': Key('space, t'), 
+  
+    # Vim Grepper
+    'grep': Key('space, f, p'),
+    'grep buff':  Key('space, f, b'),
+
+    # Filer
+    'files': Text('`'),
+    'files current': Text('~'),
+    ###
+
+    #TODO move elsewhere
+    'go down':  Key("c-down"),
+    'go left':  Key("c-left"),
+    'go up':    Key("c-up"),
+    'go right': Key("c-right"),
+    
+    #edit this _file
+    'grammar vimmy': Text(':vsplit'+location_on_host) + Key('enter'),
+
+    #viewport
+    'scree top': Key('z, t'),
+    'scree mid': Key('z, dot'),
+    'scree bot': Key('z, b'),
+
+    #panes
+    'split': Text(':vsplit') + Key('enter'),
+
+    'move down':  Key("c-j"),
+    'move left':  Key("c-h"),
+    'move up':    Key("c-u"),
+    'move right': Key("c-l"),
+
+    #motions 
+    'row [<n>]': Text('%(n)sG'),
+    'jump': jump,
+    'up   [<n>]': Key('k:%(n)d'),
+    'down [<n>]': Key('j:%(n)d'),
+    'left [<n>]': Key('h:%(n)d'),
+    'right [<n>]': Key('l:%(n)d'),
+    'jee-jee': Key('g, g'),
+    'end-jee': Key('s-g'),
+
+    'indent': Key('rangle, rangle'),
+
+    #line stuff
+    'noop <n>': Function(goto_line) + Key("s-a, enter"),
+    'noop': Key("s-a, enter"),
+    'nope': Key("s-a"),
+    'nope <n>': Function(goto_line) + Key("s-a"),
+    'nope <n>': Function(goto_line) + Key("s-a"),
+ 
+    'dine': Key("d:2"),
+    'dine <n>': Function(goto_line) + Key("d:2"),
+    'dine <n> (thru|through|to) <n2>': Function(delete_lines),
+    'ya line': Key("y:2"),
+    'ya line <n>': Function(goto_line) + Key("y:2"),
+    'ya line <n> (thru|through|to) <n2>': Function(yank_lines),
+     
+    'save': Text(':update') + Key('enter'),
+    'quit': Key('colon, q, enter'),
+    'poop': Key('s-p'),
+    'poo': Key('p'),
+    'do': Text('.'),
+    'undo': Key('u'),
+    'redo': Key('c-r'),
+
+    #macro
+    'mac': Key('q, q'),
+    'repeat mac': Key('at, at'),
+    'mac <n>': Key('at') + Text('%(n)'),
+    
+    # Finding text
+    'find [<text>]': Key("slash") + Text("%(text)s"),
+    'next': Key("n"),
+    'prev|previous': Key("s-n"),
+    'clear search': Key("colon, n, o, h, enter"),
+
+    # Word operations
+    '(doord|doored|gord)': Key("l, d, i, w, i"),
+    '(doord|doored|gord) back': Key("l, b, d, w, i"),
+    '(doord|doored|gord) <n>': Key("l, %(n)d, d, w, i"),
+    '(doord|doored|gord) back <n>': Key("l, %(n)d, b, %(n)d, d, w, i"),
+    'chord': Key("l, c, i, w"),
+    'chord <n>': Key("l, c, %(n)d, w"),
+    'sword': Key("l, v, e"),
+    'sword <n>': Key("l, v, e:%(n)d"),
+    'ef word':  Key("l, w, i"),
+    'ef word <n>': Key("l, %(n)d, w, i"),
+    'bee word': Key("b, i"),
+    'bee word <n>': Key("%(n)d, b, i"),
+}
+
+
+def _esc():
+    Key("escape").execute()
+    sleep(0.06)  #fix annoying problem of esc key being held too long in vim
+
+extras = [
+    Integer("n", 0, 9999),
+    Integer("n2", 0, 9999),
+    Dictation('text'),
+     Choice("pressKey", pressKeyMap),
+]
+
+defaults = {
+    "n": 1,
+    "n2": 1,
+}
+
+class NormalModeRule(MappingRule):
+    mapping = normal_mode_mapping
+    extras = extras
+    defaults = defaults
+
+    def _process_recognition(self, value, extras):
+        # press escape before all normal mode commands
+        _esc()
+        MappingRule._process_recognition(self, value, extras)
+
+
+class GeneralRule(MappingRule):
+    mapping = general_mapping
+    extras = extras
+    defaults = defaults
+
+
 
 grammar = Grammar('vim')
-LEADER = ' '
-
-# open vim and edit
-class Edit(MappingRule):
-    mapping = {
-        'grammar vimmy': Text(':vsplit ~/projects/aenea-grammar/_vim.py') + Key('enter')
-    }
-
-# PLUGINS
-class Plugin(MappingRule):
-    mapping = {
-        # easy-motion
-        'find': Key('space') + Key('space') + Key('s'),
-
-        # CTRL+P
-        'hunt': Text(LEADER + 't'), 
-
-        # Vim Grepper
-        'grep': Text(LEADER + 'fp'),
-        'grep buff': Text(LEADER + 'fb'),
-
-        # Filer
-        'files': Text('`'),
-        'files current': Text('~'),
-    }
-  
-
-class Word(CompoundRule):
-    spec = ('(sentence | snakey | dotty | dashy) <dictation>')
-    extras = [Dictation(name='dictation')]
-
-    def _process_recognition(self, node, extras):
-        words = node.words()
-        if len(node.words()) == 2:
-            words.append('')
-        if words[0] == 'sentence':
-            words = ' '.join(words[1:])
-        if words[0] == 'snakey':
-            words = '_'.join(words[1:])
-        if words[0] == 'dotty':
-            words = '.'.join(words[1:])
-        if words[0] == 'dashy':
-            words = '-'.join(words[1:])
-        Text(words).execute()
-
-
-class Motion(MappingRule):
-    mapping = {
-        'up': Key('k'),
-        'down': Key('j'),
-        'left': Key('h'),
-        'right': Key('l'),
-
-        'lope': Key('b'),
-        'yope': Key('w'),
-        'jope': Key('e'),
-
-        'care': Key('caret'),
-        'doll': Key('dollar'),
-
-        'jee-jee': Key('g, g'),
-        'end-jee': Key('s-g'),
-        
-        'race': Key('rbrace'),
-        'lace': Key('lbrace'),
-
-        'rack': Key('rbracket'),
-        'lack': Key('lbracket'),
-
-        'slash': Key('slash'),
-
-        'row [<count>]':  Text('%(count)sG'),
-    }
-    extras   = [
-        Integer("count", 1, 99999),
-    ]
-    defaults = {
-        "count": 1,
-    }
-
-class ArithmeticInsertion(MappingRule):
-    mapping = {
-        'assign':           Text('= '),
-        'compare eek':      Text('== '),
-        'compare treek':      Text('=== '),
-        'compare neek':  Text('!= '),
-        'compare greater':  Text('> '),
-        'compare less':     Text('< '),
-        'compare geek':     Text('>= '),
-        'compare leek':     Text('<= '),
-        'times':            Text('* '),
-        'divided':          Text('/ '),
-        'plus':             Text('+ '),
-        'minus':            Text('- '),
-        'plus equal':       Text('+= '),
-        'minus equal':      Text('-= '),
-        'times equal':      Text('*= '),
-        'divided equal':    Text('/= '),
-    }
-
-
-class KeyInsertion(MappingRule):
-    mapping = {
-        'ace [<count>]':        Key('space:%(count)d'),
-        'tab [<count>]':        Key('tab:%(count)d'),
-        'slap [<count>]':       Key('enter:%(count)d'),
-        'chuck [<count>]':      Key('del:%(count)d'),
-        'scratch [<count>]':    Key('backspace:%(count)d'),
-        'ack':                  Key('escape'),
-    }
-    extras   = [
-        Integer("count", 1, 99),
-    ]
-    defaults = {
-        "count": 1,
-    }
-
-class Command(MappingRule):
-    mapping = {
-        'vee split': Text(':vsplit') + Key('enter'),
-
-        # general view switching for MAC (MOVE ELSEWHERE)
-        'go right': Key("c-right"),
-        'go left':  Key("c-left"),
-
-        #panes
-        'move down':  Key("c-j"),
-        'move left':  Key("c-h"),
-        'move up':    Key("c-u"),
-        'move right': Key("c-l"),
-        
-
-        'vim save': Text(':update') + Key('enter'),
-        'vim quit': Text(':q') + Key('enter'),
-        'vim scratch': Key('X'),
-        'vim chuck': Key('x'),
-        'vim undo': Key('u'),
-        'plap': Key('P'),
-        'plop': Key('p'),
-        'ditto': Text('.'),
-        'macro': Text('qq'),
-        
-        'grab': Text('y'),
-        'grab line':  Text('yy'),
-        'chuck line':  Text('dd')
-        }
-
-    extras   = [
-        Dictation("motion"),
-    ]
-    defaults = {
-        "motion": 'right',
-    }
-#temporary put it here....
-        
-class Letter(MappingRule):
-    def setup():
-        long_letters_map = {
-            "alpha": "a",
-            "bravo": "b",
-            "charlie": "c",
-            "delta": "d",
-            "echo": "e",
-            "foxtrot": "f",
-            "golf": "g",
-            "hotel": "h",
-            "india": "i",
-            "juliet": "j",
-            "kilo": "k",
-            "lima": "l",
-            "mike": "m",
-            "november": "n",
-            "oscar": "o",
-            "poppa": "p",
-            "quebec": "q",
-            "romeo": "r",
-            "sierra": "s",
-            "tango": "t",
-            "uniform": "u",
-            "victor": "v",
-            "whiskey": "w",
-            "x-ray": "x",
-            "yankee": "y",
-            "zulu": "z",
-        }
-        mapping = {}
-        for k, v in long_letters_map.iteritems():
-            mapping[k] = Key(long_letters_map[k])
-        return mapping
-
-    mapping = setup()
-
-
-grammar.add_rule(Command())
-grammar.add_rule(Plugin())
-grammar.add_rule(Word())
-grammar.add_rule(Letter())
-grammar.add_rule(ArithmeticInsertion())
-grammar.add_rule(KeyInsertion())
-grammar.add_rule(Motion())
-grammar.add_rule(Edit())
+grammar.add_rule(GeneralRule())
+grammar.add_rule(NormalModeRule())
 grammar.load()
 
 def unload():
+
     global grammar
     if grammar:
         grammar.unload()
