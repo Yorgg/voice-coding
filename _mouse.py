@@ -1,13 +1,16 @@
-from aenea import Grammar, Mouse, MappingRule
-
+from aenea import Grammar, Mouse, MappingRule, Integer
 grammar = Grammar('mouse')
 
 class MouseClickRule(MappingRule):
     mapping = {
+        'vee box': Mouse('<1829, 304>, left'), #temporary
+        'host': Mouse('<0, 304>, left'), #temporary
         'tick': Mouse('left'),
-	'tee tick': Mouse('left:2'),
 	'tick ra': Mouse('right'),
     }
+    extras = [
+	Integer("n", 0, 9999),
+    ]
 
 grammar.add_rule(MouseClickRule())
 

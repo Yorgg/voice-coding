@@ -39,12 +39,6 @@ general_mapping = {
 
     'match': Key('c-n'),
 
-    'ace [<n>]':        Key('space:%(n)d'),
-    'tab [<n>]':        Key('tab:%(n)d'),
-    'slap [<n>]':       Key('enter:%(n)d'),
-    'chuck [<n>]':      Key('del:%(n)d'),
-    'scratch [<n>]':    Key('backspace:%(n)d'),
-
     #arithmetic
     'assign':           Text('= '),
     'compare eek':      Text('== '),
@@ -105,6 +99,7 @@ normal_mode_mapping = {
     'move right': Key("c-l"),
 
     #motions 
+    'matching': Key('ampersand'),
     'row [<n>]': Text('%(n)sG'),
     'jump': jump,
     'up   [<n>]': Key('k:%(n)d'),
@@ -126,9 +121,9 @@ normal_mode_mapping = {
     'dine': Key("d:2"),
     'dine <n>': Function(goto_line) + Key("d:2"),
     'dine <n> (thru|through|to) <n2>': Function(delete_lines),
-    'ya line': Key("y:2"),
-    'ya line <n>': Function(goto_line) + Key("y:2"),
-    'ya line <n> (thru|through|to) <n2>': Function(yank_lines),
+    'you line': Key("y:2"),
+    'you line <n>': Function(goto_line) + Key("y:2"),
+    'you line <n> (thru|through|to) <n2>': Function(yank_lines),
      
     'save': Text(':update') + Key('enter'),
     'quit': Key('colon, q, enter'),
