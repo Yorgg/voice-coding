@@ -15,11 +15,13 @@ from aenea import (
 from format import (
     uppercase_text,
     lowercase_text,
-    snake_case_text,
     camel_case_text,
     dot,
     dash,
+    sentence,
+    snake_case_text
 )
+
 
 letterMap = {
     "(A|alpha)": "a",
@@ -69,11 +71,44 @@ controlKeyMap = {
     "escape": "escape",
     "tab": "tab"
 }
+# For repeating of characters.
+specialCharMap = {
+    "(bar|vertical bar|pipe)": "bar",
+    "(dash|minus|hyphen)": "hyphen",
+    "(dot|period)": "dot",
+    "comma": "comma",
+    "backslash": "backslash",
+    "underscore": "underscore",
+    "(star|asterisk)": "s-8",  #mac issue when "star"
+    "colon": "colon",
+    "(semicolon|semi-colon)": "semicolon",
+    "at": "at",
+    "[double] quote": 'dquote',
+    "single quote": "squote",
+    "hash": "hash",
+    "dollar": "dollar",
+    "percent": "percent",
+    "and": "and",
+    "slash": "slash",
+    "equal": "equal",
+    "plus": "plus",
+    "space": "space",
+    "langle": "langle",
+    "rangle": "rangle",
+    "rack": "lbracket",
+    "lack": "rbracket",
+    "race": "rbrace",
+    "lace": "lbrace",
+    "laren": "lparen",
+    "raren": "rparen",
+    }
+
 
 pressKeyMap = {}
 pressKeyMap.update(letterMap)
 pressKeyMap.update(numberMap)
 pressKeyMap.update(controlKeyMap)
+pressKeyMap.update(specialCharMap)
 
 abbreviationMap = {
     "administrator": "admin",
@@ -154,43 +189,9 @@ abbreviationMap = {
     "window": "win",
 }
 
-controlKeyMap = {
-    "(enter|return)": "enter",
-    "ack": "escape",
-    "tab": "tab"
-}
-
-# For repeating of characters.
-specialCharMap = {
-    "(bar|vertical bar|pipe)": "|",
-    "(dash|minus|hyphen)": "-",
-    "(dot|period)": ".",
-    "comma": ",",
-    "backslash": "\\",
-    "underscore": "_",
-    "(star|asterisk)": "*",
-    "colon": ":",
-    "(semicolon|semi-colon)": ";",
-    "at": "@",
-    "[double] quote": '"',
-    "single quote": "'",
-    "hash": "#",
-    "dollar": "$",
-    "percent": "%",
-    "and": "&",
-    "slash": "/",
-    "equal": "=",
-    "plus": "+",
-    "space": " ",
-    "langle": "<",
-    "rangle": ">",
-    "rack": "]",
-    "lack": "[",
-    "race": "}",
-    "lace": "{",
-    }
-
 mapping = {
+    "fee": Key("escape"),
+
     # Functional keys.
     "ace [<n>]": Key("space:%(n)d"),
     "slap [<n>]": Key("enter:%(n)d"),
@@ -207,8 +208,8 @@ mapping = {
     "sing quotes": Key("squote, squote, left/3"),
     
     # Shorthand multiple characters.
-    "double <char>": Text("%(char)s%(char)s"),
-    "triple <char>": Text("%(char)s%(char)s%(char)s"),
+    "double <char>": Key("%(char)s, %(char)s"),
+    "triple <char>": Key("%(char)s, %(char)s, %(char)s"),
     "double escape": Key("escape, escape"),  # Exiting menus.
 
     # Punctuation and separation characters, for quick editing.
@@ -220,10 +221,12 @@ mapping = {
     "underscore [<n>]": Key("underscore/2:%(n)d"),
 
     "<letters>": Text("%(letters)s"),
-    "<char>": Text("%(char)s"),
+    "cap <letters>": Key("s-%(letters)s"),
+    "<char>": Key("%(char)s"),
 
     # Format dictated words
     "snake <text>": Function(snake_case_text),
+    "since <text>": Function(sentence),
     "upper <text>": Function(uppercase_text),
     "dashy <text>": Function(dash),
     "camel <text>": Function(camel_case_text),

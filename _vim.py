@@ -25,18 +25,6 @@ def delete_lines(n, n2):
     Key("d").execute()
 
 general_mapping = {
-    'dot':  Key('dot'),
-
-    'slash': Key('slash'),
-    'race': Key('rbrace'),
-    'lace': Key('lbrace'),
-
-    'rack': Key('rbracket'),
-    'lack': Key('lbracket'),
-
-    'care': Key('caret'),
-    'doll': Key('dollar'),
-
     'match': Key('c-n'),
 
     #arithmetic
@@ -109,9 +97,12 @@ normal_mode_mapping = {
     'jee-jee': Key('g, g'),
     'end-jee': Key('s-g'),
 
-    'indent': Key('rangle, rangle'),
+    'rinden': Key('rangle, rangle'),
+    'linden': Key('langle, langle'),
 
     #line stuff
+    'boop <n>': Function(goto_line) + Key("s-i"),
+    'boop': Function(goto_line) + Key("s-i"),
     'noop <n>': Function(goto_line) + Key("s-a, enter"),
     'noop': Key("s-a, enter"),
     'nope': Key("s-a"),
@@ -125,6 +116,7 @@ normal_mode_mapping = {
     'you line <n>': Function(goto_line) + Key("y:2"),
     'you line <n> (thru|through|to) <n2>': Function(yank_lines),
      
+    #general
     'save': Text(':update') + Key('enter'),
     'quit': Key('colon, q, enter'),
     'poop': Key('s-p'),
@@ -132,17 +124,27 @@ normal_mode_mapping = {
     'do': Text('.'),
     'undo': Key('u'),
     'redo': Key('c-r'),
+    'insert': Key('i'),
+    'app': Key('a'),
 
     #macro
     'mac': Key('q, q'),
     'repeat mac': Key('at, at'),
     'mac <n>': Key('at') + Text('%(n)'),
     
-    # Finding text
+    #Finding text
+    'nord': Key("s-8"),
+    'bored': Key("hash"),
+    'mash': Key("s-5"), #Matching char
+    'ounce <pressKey>': Key("f, %(pressKey)s"),
+    'bounce <pressKey>': Key("s-f, %(pressKey)s"),
+
     'find [<text>]': Key("slash") + Text("%(text)s"),
     'next': Key("n"),
     'prev|previous': Key("s-n"),
     'clear search': Key("colon, n, o, h, enter"),
+    'lope <n>': Key("w:%(n)d"),
+    'bope <n>': Key("b:%(n)d"),
 
     # Word operations
     '(doord|doored|gord)': Key("l, d, i, w, i"),
@@ -157,6 +159,10 @@ normal_mode_mapping = {
     'ef word <n>': Key("l, %(n)d, w, i"),
     'bee word': Key("b, i"),
     'bee word <n>': Key("%(n)d, b, i"),
+    'dee till <pressKey>': Key("d, t, %(pressKey)s"),
+
+    #Change in 
+    'kit <pressKey>': Key("c, i, %(pressKey)s"),
 }
 
 
@@ -186,13 +192,10 @@ class NormalModeRule(MappingRule):
         _esc()
         MappingRule._process_recognition(self, value, extras)
 
-
 class GeneralRule(MappingRule):
     mapping = general_mapping
     extras = extras
     defaults = defaults
-
-
 
 grammar = Grammar('vim')
 grammar.add_rule(GeneralRule())
@@ -205,4 +208,5 @@ def unload():
     if grammar:
         grammar.unload()
     grammar = None
+
 

@@ -22,7 +22,6 @@ def format_camel_case(text):
             newText = '%s%s' % (newText, word.capitalize())
     return newText
 
-
 def format_pascal_case(text):
     newText = ""
     words = strip_dragon_info(text)
@@ -40,7 +39,6 @@ def format_snake_case(text):
         newText += word.lower()
     return newText
 
-
 def format_dashify(text):
     newText = ""
     words = strip_dragon_info(text)
@@ -49,7 +47,6 @@ def format_dashify(text):
             word = "-" + word  # Adds dashes between normal words.
         newText += word
     return newText
-
 
 def format_dotify(text):
     newText = ""
@@ -110,35 +107,42 @@ def format_spoken_form(text):
         newText += word
     return newText
 
+def _run(newText):
+    Text("%(text)s").execute({"text": newText})
 
 def dash(text):
     newText = format_dashify(text)
-    Text("%(text)s").execute({"text": newText})
+    _run(newText)
 
 def dot(text):
-    newText = formay_dotify(text)
-    Text("%(text)s").execute({"text": newText})
+    newText = format_dotify(text)
+    _run(newText)
 
 def camel_case_text(text):
     newText = format_camel_case(text)
-    Text("%(text)s").execute({"text": newText})
+    _run(newText)
 
 def pascal_case_text(text):
     newText = format_pascal_case(text)
-    Text("%(text)s").execute({"text": newText})
+    _run(newText)
 
 def snake_case_text(text):
     newText = format_snake_case(text)
-    Text("%(text)s").execute({"text": newText})
+    _run(newText)
 
 def squash_text(text):
     newText = format_squash(text)
-    Text("%(text)s").execute({"text": newText})
+    _run(newText)
 
 def uppercase_text(text):
     newText = format_upper_case(text)
-    Text("%(text)s").execute({"text": newText})
+    _run(newText)
 
 def lowercase_text(text):
     newText = format_lower_case(text)
-    Text("%(text)s").execute({"text": newText})
+    _run(newText)
+
+def sentence(text):
+    newText = format_sentence_case(text)
+    _run(newText)
+
