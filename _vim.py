@@ -26,16 +26,17 @@ def delete_lines(n, n2):
 
 general_mapping = {
     'match': Key('c-n'),
+    'match lie': Key('c-x, c-l'),
 
     #arithmetic
     'assign':           Text('= '),
-    'compare eek':      Text('== '),
-    'compare treek':    Text('=== '),
-    'compare neek':     Text('!= '),
-    'compare greater':  Text('> '),
-    'compare less':     Text('< '),
-    'compare geek':     Text('>= '),
-    'compare leek':     Text('<= '),
+    'eek':      Text('== '),
+    'treek':    Text('=== '),
+    'neek':     Text('!= '),
+    'greater':  Text('> '),
+    'less':     Text('< '),
+    'geek':     Text('>= '),
+    'leek':     Text('<= '),
     'times':            Text('* '),
     'divided':          Text('/ '),
     'plus':             Text('+ '),
@@ -87,7 +88,6 @@ normal_mode_mapping = {
     'move right': Key("c-l"),
 
     #motions 
-    'matching': Key('ampersand'),
     'row [<n>]': Text('%(n)sG'),
     'jump': jump,
     'up   [<n>]': Key('k:%(n)d'),
@@ -126,31 +126,36 @@ normal_mode_mapping = {
     'redo': Key('c-r'),
     'insert': Key('i'),
     'app': Key('a'),
+    'rep': Key('r'),
 
     #macro
-    'mac': Key('q, q'),
-    'repeat mac': Key('at, at'),
-    'mac <n>': Key('at') + Text('%(n)'),
+    'macro': Key('q, q'),
+    'macro <n>': Key('q, %(n)s'),
+    'repeat macro': Key('at, at'),
+    'play macro <n>': Key('at, %(n)s'),
+    'play macro': Key('at, q'),
     
     #Finding text
-    'nord': Key("s-8"),
-    'bored': Key("hash"),
-    'mash': Key("s-5"), #Matching char
+    'ma ford': Key("s-8"),
+    'ma bored': Key("hash"),
+
+    'mack': Key("s-5"), #Matching bracket 
+
     'ounce <pressKey>': Key("f, %(pressKey)s"),
     'bounce <pressKey>': Key("s-f, %(pressKey)s"),
 
     'find [<text>]': Key("slash") + Text("%(text)s"),
     'next': Key("n"),
     'prev|previous': Key("s-n"),
-    'clear search': Key("colon, n, o, h, enter"),
-    'lope <n>': Key("w:%(n)d"),
-    'bope <n>': Key("b:%(n)d"),
+    'clears': Key("colon, n, o, h, enter"),
+    'ford <n>': Key("w:%(n)d"),
+    'bored <n>': Key("b:%(n)d"),
 
     # Word operations
-    '(doord|doored|gord)': Key("l, d, i, w, i"),
-    '(doord|doored|gord) back': Key("l, b, d, w, i"),
-    '(doord|doored|gord) <n>': Key("l, %(n)d, d, w, i"),
-    '(doord|doored|gord) back <n>': Key("l, %(n)d, b, %(n)d, d, w, i"),
+    '(doord|doored)': Key("l, d, w, i"),
+    '(doord|doored) back': Key("l, b, d, w, i"),
+    '(doord|doored) <n>': Key("l, %(n)d, d, w, i"),
+    '(doord|doored) back <n>': Key("l, %(n)d, b, %(n)d, d, w, i"),
     'chord': Key("l, c, i, w"),
     'chord <n>': Key("l, c, %(n)d, w"),
     'sword': Key("l, v, e"),
@@ -159,7 +164,7 @@ normal_mode_mapping = {
     'ef word <n>': Key("l, %(n)d, w, i"),
     'bee word': Key("b, i"),
     'bee word <n>': Key("%(n)d, b, i"),
-    'dee till <pressKey>': Key("d, t, %(pressKey)s"),
+    'dee until <pressKey>': Key("d, t, %(pressKey)s"),
 
     #Change in 
     'kit <pressKey>': Key("c, i, %(pressKey)s"),
