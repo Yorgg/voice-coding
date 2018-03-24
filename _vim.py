@@ -117,10 +117,13 @@ normal_mode_mapping = {
     'die <n>': Function(goto_line) + Key("d:2"),
     'die <n> (thru) <n2>': Function(delete_lines),
     'die till <pressKey>': Key("d, t, %(pressKey)s"),
+    
+    
     'you till <pressKey>': Key("y, t, %(pressKey)s"),
-    'you lie': Key("y:2"),
-    'you lie <n>': Function(goto_line) + Key("y:2"),
-    'you lie <n> (thru|through|to) <n2>': Function(yank_lines),
+    'your <n>': Key("%(n)d, y, y"), 
+    'you': Key("y:2"),
+    'you <n>': Function(goto_line) + Key("y:2"),
+    'you <n> (thru|through|to) <n2>': Function(yank_lines),
      
     #general
     'save': Text(':update') + Key('enter'),
@@ -132,8 +135,11 @@ normal_mode_mapping = {
     'redo': Key('c-r'),
     'insert': Key('i'),
     'app': Key('a'),
+    'rep <pressKey>': Key('r, %(pressKey)s'),
     'rep': Key('r'),
     'sha': Text('g;'),
+    'she': Text(';'),
+    'cha': Key('x'),
 
     #macro
     'macro': Key('q, q'),
@@ -145,7 +151,6 @@ normal_mode_mapping = {
     #Finding text
     'ma ford': Key("s-8"),
     'ma bored': Key("hash"),
-
     'mack': Key("s-5"), #Matching bracket 
 
     'ounce <pressKey>': Key("f, %(pressKey)s"),

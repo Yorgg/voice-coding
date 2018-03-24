@@ -5,7 +5,7 @@ from utilities import EscapeNewLineRule
 from time import sleep
 from aenea.proxy_contexts import ProxyAppContext
 from _generic import pressKeyMap
-from format import (
+from formats import (
     pascal_case_text,
     snake_case_text
 )
@@ -119,15 +119,8 @@ class RubyNewLineRule(EscapeNewLineRule):
     extras = extras
     defaults = defaults
 
-grammar = Grammar('ruby')
-grammar.add_rule(RubyNewLineRule())
-grammar.add_rule(RubyRuleAppend())
-grammar.load()
-
-def unload():
-    global grammar
-    if grammar:
-        grammar.unload()
-    grammar = None
-
-
+def get_ruby_grammar():
+    grammar = Grammar('ruby')
+    grammar.add_rule(RubyNewLineRule())
+    grammar.add_rule(RubyRuleAppend())
+    return grammar
