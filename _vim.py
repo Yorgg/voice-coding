@@ -97,24 +97,30 @@ normal_mode_mapping = {
     'jee-jee': Key('g, g'),
     'end-jee': Key('s-g'),
 
-    'rinden': Key('rangle, rangle'),
-    'linden': Key('langle, langle'),
+    'rinden [<n>]': Key('%(n), rangle, rangle'),
+    'linden [<n>]': Key('%(n), langle, langle'),
 
     #line stuff
     'boop <n>': Function(goto_line) + Key("s-i"),
-    'boop': Function(goto_line) + Key("s-i"),
+    'boop': Key("s-i"),
+
     'noop <n>': Function(goto_line) + Key("s-a, enter"),
     'noop': Key("s-a, enter"),
     'nope': Key("s-a"),
     'nope <n>': Function(goto_line) + Key("s-a"),
     'nope <n>': Function(goto_line) + Key("s-a"),
  
-    'dine': Key("d:2"),
-    'dine <n>': Function(goto_line) + Key("d:2"),
-    'dine <n> (thru|through|to) <n2>': Function(delete_lines),
-    'you line': Key("y:2"),
-    'you line <n>': Function(goto_line) + Key("y:2"),
-    'you line <n> (thru|through|to) <n2>': Function(yank_lines),
+    'die': Key("d:2"),
+    'dino': Key("s-d, a"),
+    'diney': Key("0, s-d"),
+    'diner <n>': Key("%(n)d, d:2"),
+    'die <n>': Function(goto_line) + Key("d:2"),
+    'die <n> (thru) <n2>': Function(delete_lines),
+    'die till <pressKey>': Key("d, t, %(pressKey)s"),
+    'you till <pressKey>': Key("y, t, %(pressKey)s"),
+    'you lie': Key("y:2"),
+    'you lie <n>': Function(goto_line) + Key("y:2"),
+    'you lie <n> (thru|through|to) <n2>': Function(yank_lines),
      
     #general
     'save': Text(':update') + Key('enter'),
@@ -127,6 +133,7 @@ normal_mode_mapping = {
     'insert': Key('i'),
     'app': Key('a'),
     'rep': Key('r'),
+    'sha': Text('g;'),
 
     #macro
     'macro': Key('q, q'),
@@ -148,8 +155,8 @@ normal_mode_mapping = {
     'next': Key("n"),
     'prev|previous': Key("s-n"),
     'clears': Key("colon, n, o, h, enter"),
-    'ford <n>': Key("w:%(n)d"),
-    'bored <n>': Key("b:%(n)d"),
+    'ford [<n>]': Key("w:%(n)d"),
+    'bored [<n>]': Key("b:%(n)d"),
 
     # Word operations
     '(doord|doored)': Key("l, d, w, i"),
@@ -164,7 +171,6 @@ normal_mode_mapping = {
     'ef word <n>': Key("l, %(n)d, w, i"),
     'bee word': Key("b, i"),
     'bee word <n>': Key("%(n)d, b, i"),
-    'dee until <pressKey>': Key("d, t, %(pressKey)s"),
 
     #Change in 
     'kit <pressKey>': Key("c, i, %(pressKey)s"),
@@ -213,5 +219,4 @@ def unload():
     if grammar:
         grammar.unload()
     grammar = None
-
 

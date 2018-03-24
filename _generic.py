@@ -1,3 +1,15 @@
+from formats import (
+    uppercase_text,
+    lowercase_text,
+    camel_case_text,
+    dot,
+    dash,
+    sentence,
+    snake_case_text
+)
+
+from utilities import EscapeInsertRule
+			
 from aenea import (
     Keyboard,
     Grammar,
@@ -8,20 +20,7 @@ from aenea import (
     Dictation,
     Choice,
     Integer,
-    Alternative,
-    CompoundRule,
 )
-
-from format import (
-    uppercase_text,
-    lowercase_text,
-    camel_case_text,
-    dot,
-    dash,
-    sentence,
-    snake_case_text
-)
-
 
 letterMap = {
     "(alpha)": "a",
@@ -101,8 +100,7 @@ specialCharMap = {
     "lace": "lbrace",
     "laren": "lparen",
     "raren": "rparen",
-    }
-
+}
 
 pressKeyMap = {}
 pressKeyMap.update(letterMap)
@@ -224,15 +222,6 @@ mapping = {
     "cap <letters>": Key("s-%(letters)s"),
     "<char>": Key("%(char)s"),
 
-    # Format dictated words
-    "snake <text>": Function(snake_case_text),
-    "since <text>": Function(sentence),
-    "upper <text>": Function(uppercase_text),
-    "dashy <text>": Function(dash),
-    "camel <text>": Function(camel_case_text),
-    "dotty <text>": Function(dot),
-    "low <text>": Function(lowercase_text),
-
     # For writing words that would otherwise be characters or commands.
     # Ex: "period", tab", "left", "right", "home".
 #    "say <reservedWord>": Text("%(reservedWord)s"),
@@ -258,10 +247,27 @@ class KeystrokeRule(MappingRule):
     ]
     defaults = {
         "n": 1,
+	"text": "",
     }
+class FormatRule(EscapeInsertRule):
+    mapping = {# Format dictated words
+	"snake [<text>]": Function(snake_case_text),
+	"since [<text>]": Function(sentence),
+	"upper [<text>]": Function(uppercase_text),
+	"dashy [<text>]": Function(dash),
+	"camel [<text>]": Function(camel_case_text),
+	"dotty [<text>]": Function(dot),
+	"low [<text>]": Function(lowercase_text)
+    }
+    defaults = {
+        "n": 1,
+	"text": "",
+    }
+    extras = [Dictation("text")]
 
 grammar = Grammar("Generic edit")
 grammar.add_rule(KeystrokeRule())  # Add the top-level rule.
+grammar.add_rule(FormatRule())  # Add the top-level rule.
 grammar.load()  # Load the grammar.
 
 def unload():

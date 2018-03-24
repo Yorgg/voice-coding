@@ -5,7 +5,7 @@ LEADER = 'c-b'
 
 class Command(MappingRule):
     mapping = {
-        'switch window [<n>]': Key(LEADER + ', ' + '%(n)s')
+        'switch win [<n>]': Key(LEADER + ', ' + '%(n)s')
     }
     extras   = [
         Integer("n", 0, 10),

@@ -1,4 +1,3 @@
-
 from aenea import Text
 
 def strip_dragon_info(text):
@@ -86,7 +85,6 @@ def format_upper_case(text):
         newText += word.upper()
     return newText
 
-
 def format_lower_case(text):
     newText = ""
     words = strip_dragon_info(text)
@@ -96,7 +94,6 @@ def format_lower_case(text):
                 word = " " + word  # Adds spacing between normal words.
         newText += word.lower()
     return newText
-
 
 def format_spoken_form(text):
     newText = ""
