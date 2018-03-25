@@ -2,11 +2,13 @@ from aenea import Choice, Grammar, MappingRule, Function
 
 # Languages
 from ruby import get_ruby_grammar
+from javascript import get_javascript_grammar
 
 generic_grammar = Grammar('generic')
 
 language_map = {
     "ruby": get_ruby_grammar(), 
+    "javascript": get_javascript_grammar()
 }
 
 def clear_mode():
